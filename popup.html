@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verified People</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M10 0L12.4 3.4L16.6 2.4L16.4 6.8L20 10L16.4 13.2L16.6 17.6L12.4 16.6L10 20L7.6 16.6L3.4 17.6L3.6 13.2L0 10L3.6 6.8L3.4 2.4L7.6 3.4L10 0Z" fill="#22C55E"/>
+        <path d="M6.5 10L8.8 12.3L13.5 7.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="logo-text">Verified People</span>
+    </div>
+    <span id="status-dot" class="dot dot--loading" title="Checking status…"></span>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat">
+      <span id="creator-count" class="stat-value">—</span>
+      <span class="stat-label">Human Creators</span>
+    </div>
+    <div class="stat stat--ai">
+      <span id="ai-count" class="stat-value stat-value--ai">—</span>
+      <span class="stat-label">AI Creators</span>
+    </div>
+    <div class="stat">
+      <span id="last-sync" class="stat-value">—</span>
+      <span class="stat-label">Last Sync</span>
+    </div>
+  </div>
+
+  <p id="msg" class="msg"></p>
+
+  <div class="footer">
+    <a href="https://x.com" target="_blank" rel="noopener">Open X/Twitter</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
