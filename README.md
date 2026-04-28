@@ -53,28 +53,13 @@ The toolbar popup shows human creator count, AI account count, last sync time, a
 
 ---
 
-## Verified human creators (seed list)
+## Managing the lists
 
-| Handle | Handle | Handle | Handle |
-|---|---|---|---|
-| @CAULISSIMO | @koizumi_arata | @AisuAsai | @SEBU_illust |
-| @ninomaeinanis | @Diptipper | @appleseed_art | @bulbaasaur |
-| @Taotan_cos | @paw_chie | @wooperfuri | @hakosbaelz |
-| @ma_draws | @advarcher | @Spiritsnare | @Phosphatide |
-| @jamutako | @Spartanii121 | @chiyu_hnkr | @mpien6 |
+All list management is done directly in the Supabase dashboard.
 
-To add a creator: insert a row into `verified_creators` in the Supabase dashboard. To remove one: set `status = 'removed'` — the badge disappears on the next 6-hour cache refresh.
-
----
-
-## AI creators (seed list)
-
-| Handle |
-|---|
-| @monomidechu |
-| @LifelongOrca98 |
-
-To add an account: insert a row into `ai_creators` in the Supabase dashboard. To remove one: set `status = 'removed'`.
+- **Add a human creator:** insert a row into `verified_creators`
+- **Add an AI account:** insert a row into `ai_creators`
+- **Remove either:** set `status = 'removed'` — the badge disappears on the next 6-hour cache refresh
 
 ---
 
