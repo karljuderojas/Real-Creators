@@ -49,30 +49,6 @@ CREATE POLICY "public insert profile_visits"
   ON profile_visits FOR INSERT
   WITH CHECK (true);
 
--- ── Seed data – 20 curated creators ──────────────────────────────────────────
-INSERT INTO verified_creators (twitter_handle, display_name) VALUES
-  ('CAULISSIMO',    'CAULISSIMO'),
-  ('koizumi_arata', 'koizumi arata'),
-  ('AisuAsai',      'Aisu Asai'),
-  ('SEBU_illust',   'SEBU'),
-  ('ninomaeinanis', 'Ninomae Ina''nis'),
-  ('Diptipper',     'Diptipper'),
-  ('appleseed_art', 'appleseed'),
-  ('bulbaasaur',    'bulbaasaur'),
-  ('Taotan_cos',    'Taotan'),
-  ('paw_chie',      'paw_chie'),
-  ('wooperfuri',    'wooperfuri'),
-  ('hakosbaelz',    'Hakos Baelz'),
-  ('ma_draws',      'ma'),
-  ('advarcher',     'advarcher'),
-  ('Spiritsnare',   'Spiritsnare'),
-  ('Phosphatide',   'Phosphatide'),
-  ('jamutako',      'jamutako'),
-  ('Spartanii121',  'Spartanii'),
-  ('chiyu_hnkr',    'chiyu'),
-  ('mpien6',        'mpien')
-ON CONFLICT (twitter_handle) DO NOTHING;
-
 -- ── Useful queries for the team dashboard ────────────────────────────────────
 
 -- Badge impressions per creator (last 7 days)
