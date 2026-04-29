@@ -22,17 +22,22 @@ A Chrome extension that injects badges onto X/Twitter profiles and feed entries:
 ### 1. Supabase
 
 1. Create a free project at [supabase.com](https://supabase.com).
-2. Open the **SQL Editor** and run [`supabase_setup.sql`](supabase_setup.sql) — creates the `verified_creators` table, analytics tables, RLS policies, and seeds all 20 human creators.
+2. Open the **SQL Editor** and run [`supabase_setup.sql`](supabase_setup.sql) — creates the `verified_creators` table, analytics tables, and RLS policies.
 3. Then run [`supabase_ai_creators.sql`](supabase_ai_creators.sql) — creates the `ai_creators` table, RLS policies, and seeds the initial AI accounts.
 
 ### 2. Load into Chrome
 
-1. Go to `chrome://extensions`
-2. Enable **Developer mode** (top right toggle)
-3. Click **Load unpacked** and select this folder
-4. Navigate to [x.com](https://x.com) — badges appear automatically on matching profiles and in the feed
+1. [Download the repository](https://github.com/karljuderojas/Real-Creators/archive/refs/heads/master.zip) and unzip it anywhere on your computer
+2. Open Chrome and go to `chrome://extensions`
+3. Enable **Developer mode** (toggle in the top-right corner)
+4. Click **Load unpacked** and select the unzipped folder
+5. Navigate to [x.com](https://x.com) — badges appear automatically on matching profiles and in the feed
 
-The toolbar popup shows human creator count, AI account count, last sync time, and connection status.
+> **Edge users:** the same steps work in Edge — go to `edge://extensions` instead.
+
+After loading, the extension icon appears in your toolbar. The popup shows creator count, AI account count, and last sync time.
+
+To update after pulling new changes, click the reload icon on the extension card in `chrome://extensions`.
 
 ---
 
