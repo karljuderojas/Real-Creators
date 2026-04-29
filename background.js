@@ -1,7 +1,7 @@
 // ── Configuration ────────────────────────────────────────────────────────────
 // Replace these with your actual Supabase project values before loading the extension.
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://vbjshhbzedvzchljvraj.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZianNoaGJ6ZWR2emNobGp2cmFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNDA5MzksImV4cCI6MjA5MjkxNjkzOX0.7Gq2H5YxZbSvYDnwKgd00ULvFT7hATZYAEO_WcdJOxw';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const CACHE_KEY = 'verified_handles';
