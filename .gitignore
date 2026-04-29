@@ -1,2 +1,7 @@
-# Local admin GUI — contains live Supabase credentials
+# Contains live Supabase credentials — never commit
 admin.html
+background.js
+
+# Packaged extension ZIP contains background.js with live credentials
+dist/*.zip
+dist/*.exe

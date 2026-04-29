@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#fff;color:#0f1419;width:1280px;height:800px;overflow:hidden;display:flex}
+.nav{width:250px;padding:8px 12px;flex-shrink:0;display:flex;flex-direction:column}
+.nav-logo{padding:10px 12px;margin-bottom:4px}
+.nav-item{display:flex;align-items:center;gap:18px;padding:10px 12px;border-radius:9999px;font-size:19px;font-weight:400;cursor:pointer;color:#0f1419}
+.nav-item.active{font-weight:700}
+.nav-icon{width:24px;height:24px;flex-shrink:0}
+.main{width:600px;border-left:1px solid #eff3f4;border-right:1px solid #eff3f4;overflow:hidden;flex-shrink:0}
+.back-bar{display:flex;align-items:center;gap:16px;padding:12px 16px;font-size:19px;font-weight:800}
+.back-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.back-icon:hover{background:#f7f9f9}
+.cover{height:200px;background:linear-gradient(135deg,#dbeafe 0%,#ede9fe 100%)}
+.profile-header{padding:0 16px 16px;border-bottom:1px solid #eff3f4}
+.avatar-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:-42px;margin-bottom:12px}
+.avatar{width:84px;height:84px;border-radius:50%;border:4px solid #fff;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff;background:#a78bfa}
+.follow-btn{background:#0f1419;color:#fff;border:none;border-radius:9999px;padding:8px 20px;font-size:15px;font-weight:700;cursor:pointer}
+.name-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:2px}
+.pname{font-size:22px;font-weight:800}
+.x-check{display:inline-flex;align-items:center}
+.vb{display:inline-flex;align-items:center;gap:4px;border-radius:4px;padding:2px 8px 2px 6px;font-size:12px;font-weight:600;line-height:1.2;white-space:nowrap;vertical-align:middle;background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0}
+.handle{color:#536471;font-size:15px;margin-bottom:10px}
+.bio{font-size:15px;line-height:1.5;margin-bottom:12px}
+.stats{display:flex;gap:20px;font-size:14px;color:#536471}
+.stats strong{color:#0f1419;font-weight:700}
+.profile-tabs{display:flex;border-bottom:1px solid #eff3f4}
+.ptab{flex:1;text-align:center;padding:14px;font-size:15px;color:#536471;cursor:pointer;position:relative}
+.ptab.active{font-weight:700;color:#0f1419}
+.ptab.active::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:56px;height:4px;background:#1d9bf0;border-radius:2px}
+.tweet{display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid #eff3f4;cursor:pointer}
+.tweet:hover{background:#f7f9f9}
+.av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;background:#a78bfa}
+.tb{flex:1;min-width:0}
+.tm{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:2px}
+.tn{font-weight:700;font-size:15px}
+.th,.td,.tt{color:#536471;font-size:15px}
+.tx{font-size:15px;line-height:1.5}
+.ti{margin-top:10px;border-radius:16px;border:1px solid #eff3f4;height:160px;display:flex;align-items:center;justify-content:center;font-size:44px}
+.ta{display:flex;gap:28px;margin-top:10px;color:#536471}
+.ta span{display:flex;align-items:center;gap:5px;font-size:13px}
+.side{flex:1;padding:12px 20px;overflow:hidden}
+.sbox{background:#eff3f4;border-radius:9999px;padding:10px 16px;font-size:15px;color:#536471;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.card{background:#f7f9f9;border-radius:16px;padding:16px}
+.card-title{font-size:19px;font-weight:800;margin-bottom:4px}
+.card-sub{font-size:13px;color:#536471;margin-bottom:14px}
+.badge-demo{display:flex;flex-direction:column;gap:12px}
+.bd-row{display:flex;align-items:center;gap:10px;padding:10px;background:#fff;border-radius:12px;border:1px solid #eff3f4}
+.bd-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:14px;flex-shrink:0}
+.bd-name{font-weight:700;font-size:14px}
+.ab{display:inline-flex;align-items:center;gap:4px;border-radius:4px;padding:2px 6px 2px 5px;font-size:11px;font-weight:600;line-height:1.2;white-space:nowrap;vertical-align:middle;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-logo">
+    <svg width="28" height="28" viewBox="0 0 30 30"><path d="M17.84 12.72L28.94 0h-2.64L16.69 11.06 9.33 0H0l11.64 16.94L0 30h2.64l10.18-11.83L20.67 30H30L17.84 12.72zm-3.6 4.19l-1.18-1.69L3.52 1.95h4.04l7.58 10.85 1.18 1.69 9.86 14.1h-4.04l-8.05-11.5-.15-.18z" fill="#0f1419"/></svg>
+  </div>
+  <div class="nav-item">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </div>
+  <div class="nav-item">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Explore
+  </div>
+  <div class="nav-item">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    Notifications
+  </div>
+  <div class="nav-item">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Messages
+  </div>
+  <div class="nav-item active">
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Profile
+  </div>
+</nav>
+
+<main class="main">
+  <div class="back-bar">
+    <div class="back-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </div>
+    Alex Kim
+  </div>
+  <div class="cover"></div>
+  <div class="profile-header">
+    <div class="avatar-row">
+      <div class="avatar">A</div>
+      <button class="follow-btn">Follow</button>
+    </div>
+    <div class="name-row">
+      <span class="pname">Alex Kim</span>
+      <span class="x-check">
+        <svg width="19" height="19" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#1d9bf0"/><path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="vb">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 0L8.1 2.2L10.8 1.6L10.7 4.4L13 6.5L10.7 8.6L10.8 11.4L8.1 10.8L6.5 13L4.9 10.8L2.2 11.4L2.3 8.6L0 6.5L2.3 4.4L2.2 1.6L4.9 2.2L6.5 0Z" fill="#22C55E"/><path d="M4 6.5L5.8 8.3L9 4.8" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Verified Creator
+      </span>
+    </div>
+    <div class="handle">@alex_kim_art</div>
+    <div class="bio">illustrator. gouache + pencil. commissions open 🌿<br>sharing my process one post at a time</div>
+    <div class="stats">
+      <span><strong>412</strong> Following</span>
+      <span><strong>28.4K</strong> Followers</span>
+    </div>
+  </div>
+  <div class="profile-tabs">
+    <div class="ptab active">Posts</div>
+    <div class="ptab">Replies</div>
+    <div class="ptab">Media</div>
+    <div class="ptab">Likes</div>
+  </div>
+  <div class="tweet">
+    <div class="av"></div>
+    <div class="tb">
+      <div class="tm"><span class="tn">Alex Kim</span><span class="th">@alex_kim_art</span><span class="td">·</span><span class="tt">2h</span></div>
+      <div class="tx">finished this piece after two weeks — hand-painted with gouache, scanned and cleaned up digitally ✦</div>
+      <div class="ti" style="background:linear-gradient(135deg,#fce7f3,#ede9fe)">🎨</div>
+      <div class="ta"><span>💬 84</span><span>🔁 312</span><span>♡ 2.4K</span></div>
+    </div>
+  </div>
+  <div class="tweet">
+    <div class="av"></div>
+    <div class="tb">
+      <div class="tm"><span class="tn">Alex Kim</span><span class="th">@alex_kim_art</span><span class="td">·</span><span class="tt">1d</span></div>
+      <div class="tx">commission queue opens Friday — DMs will be open for 24 hours only 🖌️</div>
+      <div class="ta"><span>💬 31</span><span>🔁 104</span><span>♡ 876</span></div>
+    </div>
+  </div>
+</main>
+
+<aside class="side">
+  <div class="sbox">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#536471" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Search
+  </div>
+  <div class="card">
+    <div class="card-title">Verified People</div>
+    <div class="card-sub">Badges on this profile</div>
+    <div class="badge-demo">
+      <div class="bd-row">
+        <div class="bd-av" style="background:#a78bfa">A</div>
+        <div class="bd-name">Alex Kim</div>
+        <span class="vb">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 0L8.1 2.2L10.8 1.6L10.7 4.4L13 6.5L10.7 8.6L10.8 11.4L8.1 10.8L6.5 13L4.9 10.8L2.2 11.4L2.3 8.6L0 6.5L2.3 4.4L2.2 1.6L4.9 2.2L6.5 0Z" fill="#22C55E"/><path d="M4 6.5L5.8 8.3L9 4.8" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Verified Creator
+        </span>
+      </div>
+      <div style="font-size:13px;color:#536471;padding:4px 2px">This creator has been confirmed as a real human artist by the Verified People community.</div>
+    </div>
+  </div>
+</aside>
+</body>
+</html>

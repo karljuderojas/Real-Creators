@@ -40,9 +40,9 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background-color: #fef2f2;
-  color: #b91c1c;
-  border: 1px solid #fca5a5;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
   border-radius: 4px;
   padding: 2px 6px 2px 5px;
   font-size: 11px;
@@ -68,6 +68,90 @@
   letter-spacing: 0.01em;
 }
 
+/* ── Vote widget ───────────────────────────────────────────────────────────── */
+
+.vp-vote-widget {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.vp-vote-prompt {
+  font-size: 11px;
+  color: #6b7280;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.vp-vote-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  border: 1px solid;
+  cursor: pointer;
+  transition: background 0.12s;
+  line-height: 1.4;
+}
+
+.vp-vote-btn--human {
+  background: #f0fdf4;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+.vp-vote-btn--human:hover { background: #dcfce7; }
+
+.vp-vote-btn--ai {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+.vp-vote-btn--ai:hover { background: #dbeafe; }
+
+.vp-vote-btn--unsure {
+  background: #f9fafb;
+  color: #6b7280;
+  border-color: #e5e7eb;
+}
+.vp-vote-btn--unsure:hover { background: #f3f4f6; }
+
+.vp-vote-thanks {
+  font-size: 11px;
+  color: #6b7280;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  .vp-vote-prompt, .vp-vote-thanks { color: #9ca3af; }
+  .vp-vote-btn--human { background: #052e16; color: #86efac; border-color: #166534; }
+  .vp-vote-btn--ai    { background: #172554; color: #93c5fd; border-color: #1e40af; }
+  .vp-vote-btn--unsure { background: #1f2937; color: #9ca3af; border-color: #374151; }
+}
+
+html[style*="color-scheme: dark"] .vp-vote-prompt,
+html[data-color-mode="dark"]      .vp-vote-prompt,
+html[style*="color-scheme: dark"] .vp-vote-thanks,
+html[data-color-mode="dark"]      .vp-vote-thanks { color: #9ca3af; }
+
+html[style*="color-scheme: dark"] .vp-vote-btn--human,
+html[data-color-mode="dark"]      .vp-vote-btn--human { background: #052e16; color: #86efac; border-color: #166534; }
+
+html[style*="color-scheme: dark"] .vp-vote-btn--ai,
+html[data-color-mode="dark"]      .vp-vote-btn--ai    { background: #172554; color: #93c5fd; border-color: #1e40af; }
+
+html[style*="color-scheme: dark"] .vp-vote-btn--unsure,
+html[data-color-mode="dark"]      .vp-vote-btn--unsure { background: #1f2937; color: #9ca3af; border-color: #374151; }
+
 /* Dark-mode support – X renders with prefers-color-scheme or a [data-color-mode] attribute */
 @media (prefers-color-scheme: dark) {
   .vp-verified-badge {
@@ -87,15 +171,15 @@ html[data-color-mode="dark"] .vp-verified-badge {
 
 @media (prefers-color-scheme: dark) {
   .vp-ai-badge {
-    background-color: #450a0a;
-    color: #fca5a5;
-    border-color: #991b1b;
+    background-color: #172554;
+    color: #93c5fd;
+    border-color: #1e40af;
   }
 }
 
 html[style*="color-scheme: dark"] .vp-ai-badge,
 html[data-color-mode="dark"] .vp-ai-badge {
-  background-color: #450a0a;
-  color: #fca5a5;
-  border-color: #991b1b;
+  background-color: #172554;
+  color: #93c5fd;
+  border-color: #1e40af;
 }

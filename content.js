@@ -1,6 +1,7 @@
 // ── State ─────────────────────────────────────────────────────────────────────
-const BADGE_CLASS = 'vp-verified-badge';
-const AI_BADGE_CLASS = 'vp-ai-badge';
+const BADGE_CLASS       = 'vp-verified-badge';
+const AI_BADGE_CLASS    = 'vp-ai-badge';
+const VOTE_WIDGET_CLASS = 'vp-vote-widget';
 const DEBOUNCE_MS = 250;
 
 // Non-profile path segments that share the /<word> URL pattern on X/Twitter
@@ -9,15 +10,20 @@ const NON_PROFILE_PATHS = new Set([
   'i', 'search', 'compose', 'login', 'signup', 'tos', 'privacy',
 ]);
 
-let verifiedHandles = {}; // lowercase handle → display_name
-let aiHandles = {};       // lowercase handle → display_name
+let verifiedHandles  = {}; // lowercase handle → display_name
+let aiHandles        = {}; // lowercase handle → display_name
+let submittedHandles = new Set(); // handles this install has already voted on
 let ready = false;
 
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
 (async function init() {
-  const data = await fetchHandles();
-  verifiedHandles = data.verified || {};
-  aiHandles = data.ai || {};
+  const [handleData, storedData] = await Promise.all([
+    fetchHandles(),
+    new Promise((resolve) => chrome.storage.local.get('vp_submitted_handles', resolve)),
+  ]);
+  verifiedHandles  = handleData.verified || {};
+  aiHandles        = handleData.ai || {};
+  submittedHandles = new Set(storedData.vp_submitted_handles || []);
   ready = true;
   runInjection();
   setupMutationObserver();
@@ -78,10 +84,10 @@ function makeAiBadge(handle) {
   el.innerHTML =
     '<svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">' +
       // antenna
-      '<line x1="6.5" y1="0" x2="6.5" y2="2.5" stroke="#EF4444" stroke-width="1.2" stroke-linecap="round"/>' +
-      '<circle cx="6.5" cy="1" r="0.8" fill="#EF4444"/>' +
+      '<line x1="6.5" y1="0" x2="6.5" y2="2.5" stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round"/>' +
+      '<circle cx="6.5" cy="1" r="0.8" fill="#3B82F6"/>' +
       // head
-      '<rect x="1.5" y="2.5" width="10" height="8.5" rx="1.5" fill="#EF4444"/>' +
+      '<rect x="1.5" y="2.5" width="10" height="8.5" rx="1.5" fill="#3B82F6"/>' +
       // eyes
       '<circle cx="4.5" cy="6" r="1.2" fill="white"/>' +
       '<circle cx="8.5" cy="6" r="1.2" fill="white"/>' +
@@ -90,6 +96,48 @@ function makeAiBadge(handle) {
     '</svg>' +
     '<span>AI Creator</span>';
   return el;
+}
+
+// ── Vote widget ───────────────────────────────────────────────────────────────
+function makeVoteWidget(handle) {
+  const el = document.createElement('div');
+  el.className = VOTE_WIDGET_CLASS;
+  el.dataset.vpHandle = handle.toLowerCase();
+
+  const prompt = document.createElement('span');
+  prompt.className = 'vp-vote-prompt';
+  prompt.textContent = 'Is this creator real?';
+
+  const btnHuman = document.createElement('button');
+  btnHuman.className = 'vp-vote-btn vp-vote-btn--human';
+  btnHuman.textContent = 'Real Creator';
+  btnHuman.onclick = () => castVote(handle, 'human', el);
+
+  const btnAi = document.createElement('button');
+  btnAi.className = 'vp-vote-btn vp-vote-btn--ai';
+  btnAi.textContent = 'AI Account';
+  btnAi.onclick = () => castVote(handle, 'ai', el);
+
+  const btnUnsure = document.createElement('button');
+  btnUnsure.className = 'vp-vote-btn vp-vote-btn--unsure';
+  btnUnsure.textContent = 'Not Sure';
+  btnUnsure.onclick = () => castVote(handle, 'unsure', el);
+
+  el.append(prompt, btnHuman, btnAi, btnUnsure);
+  return el;
+}
+
+function castVote(handle, vote, widgetEl) {
+  chrome.runtime.sendMessage({ type: 'SUBMIT_CREATOR', handle, vote });
+
+  submittedHandles.add(handle.toLowerCase());
+  chrome.storage.local.set({ vp_submitted_handles: [...submittedHandles] });
+
+  widgetEl.innerHTML = '';
+  const thanks = document.createElement('span');
+  thanks.className = 'vp-vote-thanks';
+  thanks.textContent = '✓ Thanks for your report';
+  widgetEl.appendChild(thanks);
 }
 
 // ── Profile page ──────────────────────────────────────────────────────────────
@@ -107,6 +155,14 @@ function injectProfileBadge() {
 
   if (isAi(handle) && !userNameEl.querySelector(`.${AI_BADGE_CLASS}`)) {
     userNameEl.appendChild(makeAiBadge(handle));
+  }
+
+  // Show vote widget for handles not yet in either list
+  const lc = handle.toLowerCase();
+  if (!isVerified(handle) && !isAi(handle) && !submittedHandles.has(lc)) {
+    if (!userNameEl.querySelector(`.${VOTE_WIDGET_CLASS}`)) {
+      userNameEl.appendChild(makeVoteWidget(handle));
+    }
   }
 }
 

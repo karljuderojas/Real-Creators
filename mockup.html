@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verified People — Product Mockup</title>
+  <style>
+    /* ── Reset & base ─────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+      background: #f0f2f5;
+      color: #0f1419;
+      min-height: 100vh;
+      padding: 40px 24px 80px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: #536471;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .row {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #536471;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    /* ── Badges (identical to content.css) ───────────────────────────────── */
+    .vp-verified-badge, .vp-ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 4px;
+      padding: 2px 6px 2px 5px;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.2;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: default;
+      user-select: none;
+    }
+    .vp-verified-badge {
+      background-color: #f0fdf4;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+    .vp-ai-badge {
+      background-color: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+    .vp-verified-badge svg, .vp-ai-badge svg { flex-shrink: 0; display: block; }
+
+    /* ── Popup shell ─────────────────────────────────────────────────────── */
+    .popup {
+      width: 240px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      overflow: hidden;
+    }
+    .popup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .popup-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      color: #111827;
+    }
+    .dot-green {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: #22c55e; flex-shrink: 0;
+    }
+    .popup-stats {
+      display: flex;
+    }
+    .popup-stat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 8px;
+      gap: 2px;
+    }
+    .popup-stat + .popup-stat { border-left: 1px solid #f3f4f6; }
+    .popup-stat-val {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .popup-stat-val.green { color: #15803d; }
+    .popup-stat-val.blue  { color: #1d4ed8; }
+    .popup-stat-val.gray  { color: #374151; }
+    .popup-stat-lbl {
+      font-size: 10px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+    .popup-msg {
+      padding: 10px 14px;
+      font-size: 11px;
+      color: #6b7280;
+      line-height: 1.4;
+      border-top: 1px solid #f3f4f6;
+    }
+    .popup-footer {
+      padding: 8px 14px 12px;
+      border-top: 1px solid #f3f4f6;
+      text-align: center;
+      font-size: 12px;
+      color: #22c55e;
+      font-weight: 500;
+    }
+
+    /* ── X/Twitter chrome ────────────────────────────────────────────────── */
+    .x-shell {
+      width: 600px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      overflow: hidden;
+    }
+    .x-topbar {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid #eff3f4;
+      font-weight: 700;
+      font-size: 17px;
+    }
+    /* ── Tweet ── */
+    .tweet {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #eff3f4;
+    }
+    .avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: #e7e7e7;
+      overflow: hidden;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-placeholder {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .tweet-body { flex: 1; min-width: 0; }
+    .tweet-meta {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    .tweet-name { font-weight: 700; font-size: 15px; }
+    .tweet-handle { color: #536471; font-size: 15px; }
+    .tweet-dot { color: #536471; font-size: 15px; }
+    .tweet-time { color: #536471; font-size: 15px; }
+    .tweet-text { font-size: 15px; line-height: 1.5; color: #0f1419; }
+    .tweet-image {
+      margin-top: 10px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #eff3f4;
+    }
+    .tweet-image-placeholder {
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, #e0e7ff 0%, #f0fdf4 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px;
+    }
+    .tweet-actions {
+      display: flex;
+      gap: 24px;
+      margin-top: 10px;
+    }
+    .tweet-action {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #536471;
+      font-size: 13px;
+    }
+
+    /* ── Profile page ── */
+    .profile-cover {
+      height: 130px;
+      background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%);
+    }
+    .profile-header {
+      padding: 0 16px 12px;
+      border-bottom: 1px solid #eff3f4;
+    }
+    .profile-avatar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: -20px;
+      margin-bottom: 12px;
+    }
+    .profile-avatar {
+      width: 68px; height: 68px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .follow-btn {
+      background: #0f1419;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 7px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .profile-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 2px;
+    }
+    .profile-name { font-size: 20px; font-weight: 800; }
+    .x-checkmark {
+      display: inline-flex;
+      align-items: center;
+    }
+    .profile-handle { color: #536471; font-size: 15px; margin-bottom: 8px; }
+    .profile-bio { font-size: 15px; line-height: 1.4; margin-bottom: 10px; }
+    .profile-stats {
+      display: flex; gap: 16px; font-size: 14px; color: #536471;
+    }
+    .profile-stats strong { color: #0f1419; }
+
+    /* ── AI profile ── */
+    .ai-profile-cover {
+      height: 130px;
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    }
+
+    /* ── Unknown profile cover ── */
+    .unknown-profile-cover {
+      height: 130px;
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    }
+
+    /* ── Vote widget (mirrors content.css) ── */
+    .vp-vote-widget {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      width: 100%;
+    }
+    .vp-vote-prompt {
+      font-size: 11px;
+      color: #6b7280;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .vp-vote-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+    .vp-vote-btn--human  { background:#f0fdf4; color:#15803d; border-color:#bbf7d0; }
+    .vp-vote-btn--ai     { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+    .vp-vote-btn--unsure { background:#f9fafb; color:#6b7280; border-color:#e5e7eb; }
+
+    /* ── Badge close-up ── */
+    .badge-showcase {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .badge-showcase-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .badge-showcase-sub {
+      font-size: 11px;
+      color: #536471;
+      text-align: center;
+      margin-top: -8px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Verified People — Product Mockup</h1>
+
+<!-- ── Row 1: Popup + Badge close-up ──────────────────────────────────────── -->
+<div class="row">
+
+  <div>
+    <div class="label">Extension Popup</div>
+    <div class="popup">
+      <div class="popup-header">
+        <div class="popup-logo">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M10 0L12.4 3.4L16.6 2.4L16.4 6.8L20 10L16.4 13.2L16.6 17.6L12.4 16.6L10 20L7.6 16.6L3.4 17.6L3.6 13.2L0 10L3.6 6.8L3.4 2.4L7.6 3.4L10 0Z" fill="#22C55E"/>
+            <path d="M6.5 10L8.8 12.3L13.5 7.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Verified People
+        </div>
+        <div class="dot-green" title="Active"></div>
+      </div>
+      <div class="popup-stats">
+        <div class="popup-stat">
+          <span class="popup-stat-val green">20</span>
+          <span class="popup-stat-lbl">Human Creators</span>
+        </div>
+        <div class="popup-stat">
+          <span class="popup-stat-val blue">2</span>
+          <span class="popup-stat-lbl">AI Creators</span>
+        </div>
+        <div class="popup-stat">
+          <span class="popup-stat-val gray">2m</span>
+          <span class="popup-stat-lbl">Last Sync</span>
+        </div>
+      </div>
+      <div class="popup-msg">Badges active: 20 human creators, 2 AI accounts flagged.</div>
+      <div class="popup-footer">Open X/Twitter</div>
+    </div>
+  </div>
+
+  <div>
+    <div class="label">Badge Close-up</div>
+    <div class="badge-showcase">
+      <div class="badge-showcase-row">
+        alex_kim_art
+        <span class="vp-verified-badge">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M6.5 0L8.1 2.2L10.8 1.6L10.7 4.4L13 6.5L10.7 8.6L10.8 11.4L8.1 10.8L6.5 13L4.9 10.8L2.2 11.4L2.3 8.6L0 6.5L2.3 4.4L2.2 1.6L4.9 2.2L6.5 0Z" fill="#22C55E"/>
+            <path d="M4 6.5L5.8 8.3L9 4.8" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Verified Creator</span>
+        </span>
+      </div>
+      <div class="badge-showcase-sub">Human artist — green badge</div>
+
+      <div class="badge-showcase-row">
+        pixeldrift_ai
+        <span class="vp-ai-badge">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <line x1="6.5" y1="0" x2="6.5" y2="2.5" stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="6.5" cy="1" r="0.8" fill="#3B82F6"/>
+            <rect x="1.5" y="2.5" width="10" height="8.5" rx="1.5" fill="#3B82F6"/>
+            <circle cx="4.5" cy="6" r="1.2" fill="white"/>
+            <circle cx="8.5" cy="6" r="1.2" fill="white"/>
+            <rect x="3.5" y="8.5" width="6" height="1.2" rx="0.6" fill="white" opacity="0.8"/>
+          </svg>
+          <span>AI Creator</span>
+        </span>
+      </div>
+      <div class="badge-showcase-sub">AI account — blue badge</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Row 2: Feed ─────────────────────────────────────────────────────────── -->
+<div class="row">
+  <div>
+    <div class="label">Feed View</div>
+    <div class="x-shell">
+      <div class="x-topbar">For You</div>
+
+      <!-- Tweet 1 — verified human -->
+      <div class="tweet">
+        <div class="avatar-placeholder" style="background:#a78bfa;">M</div>
+        <div class="tweet-body">
+          <div class="tweet-meta">
+            <span class="tweet-name">Alex Kim</span>
+            <span class="vp-verified-badge">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                <path d="M6.5 0L8.1 2.2L10.8 1.6L10.7 4.4L13 6.5L10.7 8.6L10.8 11.4L8.1 10.8L6.5 13L4.9 10.8L2.2 11.4L2.3 8.6L0 6.5L2.3 4.4L2.2 1.6L4.9 2.2L6.5 0Z" fill="#22C55E"/>
+                <path d="M4 6.5L5.8 8.3L9 4.8" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Verified Creator</span>
+            </span>
+            <span class="tweet-handle">@alex_kim_art</span>
+            <span class="tweet-dot">·</span>
+            <span class="tweet-time">3h</span>
+          </div>
+          <div class="tweet-text">finished this piece after two weeks. hand-painted with gouache, scanned and cleaned up digitally ✦</div>
+          <div class="tweet-image">
+            <div class="tweet-image-placeholder">🎨</div>
+          </div>
+          <div class="tweet-actions">
+            <span class="tweet-action">💬 <span>84</span></span>
+            <span class="tweet-action">🔁 <span>312</span></span>
+            <span class="tweet-action">♡ <span>2.4K</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tweet 2 — unverified -->
+      <div class="tweet">
+        <div class="avatar-placeholder" style="background:#94a3b8;">J</div>
+        <div class="tweet-body">
+          <div class="tweet-meta">
+            <span class="tweet-name">Marco Design</span>
+            <span class="tweet-handle">@marcodesign_co</span>
+            <span class="tweet-dot">·</span>
+            <span class="tweet-time">5h</span>
+          </div>
+          <div class="tweet-text">New collection just dropped! Check out these amazing pieces ✨</div>
+          <div class="tweet-actions">
+            <span class="tweet-action">💬 <span>12</span></span>
+            <span class="tweet-action">🔁 <span>44</span></span>
+            <span class="tweet-action">♡ <span>201</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tweet 3 — AI account -->
+      <div class="tweet">
+        <div class="avatar-placeholder" style="background:#60a5fa;">A</div>
+        <div class="tweet-body">
+          <div class="tweet-meta">
+            <span class="tweet-name">Pixel Drift</span>
+            <span class="vp-ai-badge">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                <line x1="6.5" y1="0" x2="6.5" y2="2.5" stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round"/>
+                <circle cx="6.5" cy="1" r="0.8" fill="#3B82F6"/>
+                <rect x="1.5" y="2.5" width="10" height="8.5" rx="1.5" fill="#3B82F6"/>
+                <circle cx="4.5" cy="6" r="1.2" fill="white"/>
+                <circle cx="8.5" cy="6" r="1.2" fill="white"/>
+                <rect x="3.5" y="8.5" width="6" height="1.2" rx="0.6" fill="white" opacity="0.8"/>
+              </svg>
+              <span>AI Creator</span>
+            </span>
+            <span class="tweet-handle">@pixeldrift_ai</span>
+            <span class="tweet-dot">·</span>
+            <span class="tweet-time">1h</span>
+          </div>
+          <div class="tweet-text">Generating stunning visuals with the latest diffusion models. Which style do you prefer? 🤖</div>
+          <div class="tweet-image">
+            <div class="tweet-image-placeholder" style="background: linear-gradient(135deg,#dbeafe,#e0e7ff);">🤖</div>
+          </div>
+          <div class="tweet-actions">
+            <span class="tweet-action">💬 <span>6</span></span>
+            <span class="tweet-action">🔁 <span>19</span></span>
+            <span class="tweet-action">♡ <span>88</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tweet 4 — another verified human -->
+      <div class="tweet">
+        <div class="avatar-placeholder" style="background:#f472b6;">S</div>
+        <div class="tweet-body">
+          <div class="tweet-meta">
+            <span class="tweet-name">Casey Wells</span>
+            <span class="vp-verified-badge">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                <path d="M6.5 0L8.1 2.2L10.8 1.6L10.7 4.4L13 6.5L10.7 8.6L10.8 11.4L8.1 10.8L6.5 13L4.9 10.8L2.2 11.4L2.3 8.6L0 6.5L2.3 4.4L2.2 1.6L4.9 2.2L6.5 0Z" fill="#22C55E"/>
+                <path d="M4 6.5L5.8 8.3L9 4.8" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Verified Creator</span>
+            </span>
+            <span class="tweet-handle">@caseywells_art</span>
+            <span class="tweet-dot">·</span>
+            <span class="tweet-time">8h</span>
+          </div>
+          <div class="tweet-text">sketch dump from this week — been experimenting with ink washes between sessions</div>
+          <div class="tweet-actions">
+            <span class="tweet-action">💬 <span>47</span></span>
+            <span class="tweet-action">🔁 <span>189</span></span>
+            <span class="tweet-action">♡ <span>1.1K</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── Row 3: Profile pages ────────────────────────────────────────────────── -->
+<div class="row">
+
+  <!-- Human creator profile -->
+  <div>
+    <div class="label">Human Creator Profile</div>
+    <div class="x-shell">
+      <div class="profile-cover"></div>
+      <div class="profile-header">
+        <div class="profile-avatar-row">
+          <div class="profile-avatar" style="background:#a78bfa;">M</div>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="profile-name-row">
+          <span class="profile-name">Alex Kim</span>
+          <span class="x-checkmark">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <circle cx="9" cy="9" r="9" fill="#1d9bf0"/>
+              <path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="vp-verified-badge">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M6.5 0L8.1 2.2L10.8 1.6L10.7 4.4L13 6.5L10.7 8.6L10.8 11.4L8.1 10.8L6.5 13L4.9 10.8L2.2 11.4L2.3 8.6L0 6.5L2.3 4.4L2.2 1.6L4.9 2.2L6.5 0Z" fill="#22C55E"/>
+              <path d="M4 6.5L5.8 8.3L9 4.8" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Verified Creator</span>
+          </span>
+        </div>
+        <div class="profile-handle">@alex_kim_art</div>
+        <div class="profile-bio">illustrator. gouache + pencil. commissions open 🌿</div>
+        <div class="profile-stats">
+          <span><strong>412</strong> Following</span>
+          <span><strong>28.4K</strong> Followers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI creator profile -->
+  <div>
+    <div class="label">AI Creator Profile</div>
+    <div class="x-shell">
+      <div class="ai-profile-cover"></div>
+      <div class="profile-header">
+        <div class="profile-avatar-row">
+          <div class="profile-avatar" style="background:#60a5fa;">A</div>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="profile-name-row">
+          <span class="profile-name">Pixel Drift</span>
+          <span class="vp-ai-badge">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <line x1="6.5" y1="0" x2="6.5" y2="2.5" stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="6.5" cy="1" r="0.8" fill="#3B82F6"/>
+              <rect x="1.5" y="2.5" width="10" height="8.5" rx="1.5" fill="#3B82F6"/>
+              <circle cx="4.5" cy="6" r="1.2" fill="white"/>
+              <circle cx="8.5" cy="6" r="1.2" fill="white"/>
+              <rect x="3.5" y="8.5" width="6" height="1.2" rx="0.6" fill="white" opacity="0.8"/>
+            </svg>
+            <span>AI Creator</span>
+          </span>
+        </div>
+        <div class="profile-handle">@pixeldrift_ai</div>
+        <div class="profile-bio">AI-generated art and visual explorations 🤖✨</div>
+        <div class="profile-stats">
+          <span><strong>89</strong> Following</span>
+          <span><strong>4.2K</strong> Followers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Row 4: Unverified profiles with vote widget ─────────────────────────── -->
+<div class="row">
+
+  <!-- Unverified profile A -->
+  <div>
+    <div class="label">Unknown Creator — Vote Prompt</div>
+    <div class="x-shell">
+      <div class="unknown-profile-cover"></div>
+      <div class="profile-header">
+        <div class="profile-avatar-row">
+          <div class="profile-avatar" style="background:#fb923c;">J</div>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="profile-name-row">
+          <span class="profile-name">Jordan Reyes</span>
+          <div class="vp-vote-widget">
+            <span class="vp-vote-prompt">Is this creator real?</span>
+            <button class="vp-vote-btn vp-vote-btn--human">Real Creator</button>
+            <button class="vp-vote-btn vp-vote-btn--ai">AI Account</button>
+            <button class="vp-vote-btn vp-vote-btn--unsure">Not Sure</button>
+          </div>
+        </div>
+        <div class="profile-handle">@jordanreyes_art</div>
+        <div class="profile-bio">digital art • color studies • available for commissions 🎨</div>
+        <div class="profile-stats">
+          <span><strong>204</strong> Following</span>
+          <span><strong>5.1K</strong> Followers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unverified profile B -->
+  <div>
+    <div class="label">Unknown Creator — Vote Prompt</div>
+    <div class="x-shell">
+      <div class="unknown-profile-cover" style="background: linear-gradient(135deg,#fce7f3,#fdf4ff);"></div>
+      <div class="profile-header">
+        <div class="profile-avatar-row">
+          <div class="profile-avatar" style="background:#c084fc;">S</div>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="profile-name-row">
+          <span class="profile-name">Sam Okafor</span>
+          <div class="vp-vote-widget">
+            <span class="vp-vote-prompt">Is this creator real?</span>
+            <button class="vp-vote-btn vp-vote-btn--human">Real Creator</button>
+            <button class="vp-vote-btn vp-vote-btn--ai">AI Account</button>
+            <button class="vp-vote-btn vp-vote-btn--unsure">Not Sure</button>
+          </div>
+        </div>
+        <div class="profile-handle">@sam_okafor</div>
+        <div class="profile-bio">concept artist & illustrator. games / film. open to work 🖌️</div>
+        <div class="profile-stats">
+          <span><strong>531</strong> Following</span>
+          <span><strong>12.8K</strong> Followers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
