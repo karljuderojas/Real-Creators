@@ -33,6 +33,7 @@ let ready = false;
 function fetchHandles() {
   return new Promise((resolve) => {
     chrome.runtime.sendMessage({ type: 'GET_VERIFIED_HANDLES' }, (res) => {
+      void chrome.runtime.lastError;
       resolve(res || { verified: {}, ai: {} });
     });
   });
@@ -115,7 +116,7 @@ function makeVoteWidget(handle) {
 
   const btnAi = document.createElement('button');
   btnAi.className = 'vp-vote-btn vp-vote-btn--ai';
-  btnAi.textContent = 'AI Account';
+  btnAi.textContent = 'AI Creator';
   btnAi.onclick = () => castVote(handle, 'ai', el);
 
   const btnUnsure = document.createElement('button');
@@ -128,7 +129,9 @@ function makeVoteWidget(handle) {
 }
 
 function castVote(handle, vote, widgetEl) {
-  chrome.runtime.sendMessage({ type: 'SUBMIT_CREATOR', handle, vote });
+  chrome.runtime.sendMessage({ type: 'SUBMIT_CREATOR', handle, vote }, () => {
+    void chrome.runtime.lastError; // service worker may be asleep; suppress "no receiver" error
+  });
 
   submittedHandles.add(handle.toLowerCase());
   chrome.storage.local.set({ vp_submitted_handles: [...submittedHandles] });
@@ -150,7 +153,7 @@ function injectProfileBadge() {
 
   if (isVerified(handle) && !userNameEl.querySelector(`.${BADGE_CLASS}`)) {
     userNameEl.appendChild(makeBadge(handle));
-    chrome.runtime.sendMessage({ type: 'BADGE_IMPRESSION', handle });
+    chrome.runtime.sendMessage({ type: 'BADGE_IMPRESSION', handle }, () => void chrome.runtime.lastError);
   }
 
   if (isAi(handle) && !userNameEl.querySelector(`.${AI_BADGE_CLASS}`)) {
@@ -179,7 +182,7 @@ function injectFeedBadges() {
 
     if (isVerified(handle) && !userNameEl.querySelector(`.${BADGE_CLASS}`)) {
       userNameEl.appendChild(makeBadge(handle));
-      chrome.runtime.sendMessage({ type: 'BADGE_IMPRESSION', handle });
+      chrome.runtime.sendMessage({ type: 'BADGE_IMPRESSION', handle }, () => void chrome.runtime.lastError);
       attachVisitTracking(userNameEl, handle);
     }
 
@@ -208,7 +211,7 @@ function attachVisitTracking(userNameEl, handle) {
     if (href === `/${handle}` || href.toLowerCase() === `/${handle.toLowerCase()}`) {
       a.addEventListener(
         'click',
-        () => chrome.runtime.sendMessage({ type: 'PROFILE_VISIT', handle }),
+        () => chrome.runtime.sendMessage({ type: 'PROFILE_VISIT', handle }, () => void chrome.runtime.lastError),
         { once: true }
       );
     }

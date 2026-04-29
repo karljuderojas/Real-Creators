@@ -29,7 +29,7 @@ chrome.runtime.sendMessage({ type: 'GET_STATUS' }, (status) => {
     msg.textContent = 'No creators loaded yet. The list syncs every 6 hours.';
   } else {
     setDot('ok');
-    msg.textContent = `Badges active: ${status.creatorCount} human creators, ${status.aiCount} AI accounts flagged.`;
+    msg.textContent = `Badges active: ${status.creatorCount} human creators, ${status.aiCount} AI creators flagged.`;
   }
 });
 

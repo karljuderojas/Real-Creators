@@ -23,7 +23,7 @@ A Chrome extension that injects badges onto X/Twitter profiles and feed entries:
 
 1. Create a free project at [supabase.com](https://supabase.com).
 2. Open the **SQL Editor** and run [`supabase_setup.sql`](supabase_setup.sql) — creates the `verified_creators` table, analytics tables, and RLS policies.
-3. Then run [`supabase_ai_creators.sql`](supabase_ai_creators.sql) — creates the `ai_creators` table, RLS policies, and seeds the initial AI accounts.
+3. Then run [`supabase_ai_creators.sql`](supabase_ai_creators.sql) — creates the `ai_creators` table, RLS policies, and seeds the initial AI creators.
 
 ### 2. Load into Chrome
 
@@ -35,7 +35,7 @@ A Chrome extension that injects badges onto X/Twitter profiles and feed entries:
 
 > **Edge users:** the same steps work in Edge — go to `edge://extensions` instead.
 
-After loading, the extension icon appears in your toolbar. The popup shows creator count, AI account count, and last sync time.
+After loading, the extension icon appears in your toolbar. The popup shows creator count, AI creator count, and last sync time.
 
 To update after pulling new changes, click the reload icon on the extension card in `chrome://extensions`.
 
@@ -63,7 +63,7 @@ To update after pulling new changes, click the reload icon on the extension card
 All list management is done directly in the Supabase dashboard.
 
 - **Add a human creator:** insert a row into `verified_creators`
-- **Add an AI account:** insert a row into `ai_creators`
+- **Add an AI creator:** insert a row into `ai_creators`
 - **Remove either:** set `status = 'removed'` — the badge disappears on the next 6-hour cache refresh
 
 ---
