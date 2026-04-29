@@ -27,7 +27,7 @@ A Chrome extension that injects badges onto X/Twitter profiles and feed entries:
 
 ### 2. Load into Chrome
 
-1. [Download the repository](https://github.com/karljuderojas/Real-Creators/archive/refs/heads/master.zip) and unzip it anywhere on your computer
+1. [Download VerifiedPeople.zip](https://github.com/karljuderojas/Real-Creators/releases/latest/download/VerifiedPeople.zip) and unzip it anywhere on your computer
 2. Open Chrome and go to `chrome://extensions`
 3. Enable **Developer mode** (toggle in the top-right corner)
 4. Click **Load unpacked** and select the unzipped folder
