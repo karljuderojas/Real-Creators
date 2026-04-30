@@ -24,7 +24,14 @@
       color: #536471;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 48px;
+      margin-bottom: 8px;
+    }
+
+    .subhead {
+      text-align: center;
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 40px;
     }
 
     .row {
@@ -46,7 +53,7 @@
       text-align: center;
     }
 
-    /* ── Badges (identical to content.css) ───────────────────────────────── */
+    /* ── Badges (mirrors content.css) ────────────────────────────────────── */
     .vp-verified-badge, .vp-ai-badge {
       display: inline-flex;
       align-items: center;
@@ -73,7 +80,7 @@
     }
     .vp-verified-badge svg, .vp-ai-badge svg { flex-shrink: 0; display: block; }
 
-    /* ── Popup shell ─────────────────────────────────────────────────────── */
+    /* ── Popup shell (mirrors popup.css) ─────────────────────────────────── */
     .popup {
       width: 240px;
       background: #fff;
@@ -102,6 +109,7 @@
     }
     .popup-stats {
       display: flex;
+      border-bottom: 1px solid #f3f4f6;
     }
     .popup-stat {
       flex: 1;
@@ -132,16 +140,26 @@
       font-size: 11px;
       color: #6b7280;
       line-height: 1.4;
-      border-top: 1px solid #f3f4f6;
+      min-height: 32px;
     }
     .popup-footer {
-      padding: 8px 14px 12px;
+      padding: 10px 14px 12px;
       border-top: 1px solid #f3f4f6;
-      text-align: center;
-      font-size: 12px;
-      color: #22c55e;
-      font-weight: 500;
+      display: flex;
+      gap: 8px;
     }
+    .popup-footer a {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      padding: 8px 10px;
+      border-radius: 6px;
+      color: #ffffff;
+    }
+    .popup-footer-x    { background: #111827; }
+    .popup-footer-kofi { background: #ef4444; }
 
     /* ── X/Twitter chrome ────────────────────────────────────────────────── */
     .x-shell {
@@ -157,6 +175,7 @@
       font-weight: 700;
       font-size: 17px;
     }
+
     /* ── Tweet ── */
     .tweet {
       display: flex;
@@ -164,14 +183,6 @@
       padding: 12px 16px;
       border-bottom: 1px solid #eff3f4;
     }
-    .avatar {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      background: #e7e7e7;
-      overflow: hidden;
-    }
-    .avatar img { width: 100%; height: 100%; object-fit: cover; }
     .avatar-placeholder {
       width: 40px; height: 40px;
       border-radius: 50%;
@@ -190,9 +201,7 @@
       margin-bottom: 4px;
     }
     .tweet-name { font-weight: 700; font-size: 15px; }
-    .tweet-handle { color: #536471; font-size: 15px; }
-    .tweet-dot { color: #536471; font-size: 15px; }
-    .tweet-time { color: #536471; font-size: 15px; }
+    .tweet-handle, .tweet-dot, .tweet-time { color: #536471; font-size: 15px; }
     .tweet-text { font-size: 15px; line-height: 1.5; color: #0f1419; }
     .tweet-image {
       margin-top: 10px;
@@ -224,6 +233,14 @@
     .profile-cover {
       height: 130px;
       background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%);
+    }
+    .ai-profile-cover {
+      height: 130px;
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    }
+    .unknown-profile-cover {
+      height: 130px;
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
     }
     .profile-header {
       padding: 0 16px 12px;
@@ -263,28 +280,12 @@
       margin-bottom: 2px;
     }
     .profile-name { font-size: 20px; font-weight: 800; }
-    .x-checkmark {
-      display: inline-flex;
-      align-items: center;
-    }
     .profile-handle { color: #536471; font-size: 15px; margin-bottom: 8px; }
     .profile-bio { font-size: 15px; line-height: 1.4; margin-bottom: 10px; }
     .profile-stats {
       display: flex; gap: 16px; font-size: 14px; color: #536471;
     }
     .profile-stats strong { color: #0f1419; }
-
-    /* ── AI profile ── */
-    .ai-profile-cover {
-      height: 130px;
-      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    }
-
-    /* ── Unknown profile cover ── */
-    .unknown-profile-cover {
-      height: 130px;
-      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-    }
 
     /* ── Vote widget (mirrors content.css) ── */
     .vp-vote-widget {
@@ -340,11 +341,65 @@
       text-align: center;
       margin-top: -8px;
     }
+
+    /* ── Architecture diagram ── */
+    .arch {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 24px 28px;
+      max-width: 920px;
+      width: 100%;
+    }
+    .arch-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .arch-flow {
+      display: flex;
+      gap: 12px;
+      align-items: stretch;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .arch-node {
+      flex: 1 1 180px;
+      min-width: 160px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 14px 14px 12px;
+      background: #fafafa;
+    }
+    .arch-node h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 6px;
+    }
+    .arch-node p {
+      font-size: 11px;
+      line-height: 1.45;
+      color: #4b5563;
+    }
+    .arch-node.supabase { background: #f0fdf4; border-color: #bbf7d0; }
+    .arch-node.bg       { background: #eff6ff; border-color: #bfdbfe; }
+    .arch-node.content  { background: #fffbeb; border-color: #fde68a; }
+    .arch-node.popup    { background: #faf5ff; border-color: #e9d5ff; }
+    .arch-arrow {
+      align-self: center;
+      color: #9ca3af;
+      font-size: 18px;
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
 
 <h1>Verified People — Product Mockup</h1>
+<p class="subhead">A Chrome extension that badges human and AI creators on X/Twitter</p>
 
 <!-- ── Row 1: Popup + Badge close-up ──────────────────────────────────────── -->
 <div class="row">
@@ -377,7 +432,10 @@
         </div>
       </div>
       <div class="popup-msg">Badges active: 20 human creators, 2 AI creators flagged.</div>
-      <div class="popup-footer">Open X/Twitter</div>
+      <div class="popup-footer">
+        <a class="popup-footer-x" href="#">Open X/Twitter</a>
+        <a class="popup-footer-kofi" href="#">Support on Ko-fi</a>
+      </div>
     </div>
   </div>
 
@@ -419,13 +477,13 @@
 <!-- ── Row 2: Feed ─────────────────────────────────────────────────────────── -->
 <div class="row">
   <div>
-    <div class="label">Feed View</div>
+    <div class="label">Feed View — badges injected next to usernames</div>
     <div class="x-shell">
       <div class="x-topbar">For You</div>
 
       <!-- Tweet 1 — verified human -->
       <div class="tweet">
-        <div class="avatar-placeholder" style="background:#a78bfa;">M</div>
+        <div class="avatar-placeholder" style="background:#a78bfa;">A</div>
         <div class="tweet-body">
           <div class="tweet-meta">
             <span class="tweet-name">Alex Kim</span>
@@ -452,9 +510,9 @@
         </div>
       </div>
 
-      <!-- Tweet 2 — unverified -->
+      <!-- Tweet 2 — unverified (no badge) -->
       <div class="tweet">
-        <div class="avatar-placeholder" style="background:#94a3b8;">J</div>
+        <div class="avatar-placeholder" style="background:#94a3b8;">M</div>
         <div class="tweet-body">
           <div class="tweet-meta">
             <span class="tweet-name">Marco Design</span>
@@ -471,9 +529,9 @@
         </div>
       </div>
 
-      <!-- Tweet 3 — AI account -->
+      <!-- Tweet 3 — AI creator -->
       <div class="tweet">
-        <div class="avatar-placeholder" style="background:#60a5fa;">A</div>
+        <div class="avatar-placeholder" style="background:#60a5fa;">P</div>
         <div class="tweet-body">
           <div class="tweet-meta">
             <span class="tweet-name">Pixel Drift</span>
@@ -506,7 +564,7 @@
 
       <!-- Tweet 4 — another verified human -->
       <div class="tweet">
-        <div class="avatar-placeholder" style="background:#f472b6;">S</div>
+        <div class="avatar-placeholder" style="background:#f472b6;">C</div>
         <div class="tweet-body">
           <div class="tweet-meta">
             <span class="tweet-name">Casey Wells</span>
@@ -544,17 +602,11 @@
       <div class="profile-cover"></div>
       <div class="profile-header">
         <div class="profile-avatar-row">
-          <div class="profile-avatar" style="background:#a78bfa;">M</div>
+          <div class="profile-avatar" style="background:#a78bfa;">A</div>
           <button class="follow-btn">Follow</button>
         </div>
         <div class="profile-name-row">
           <span class="profile-name">Alex Kim</span>
-          <span class="x-checkmark">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <circle cx="9" cy="9" r="9" fill="#1d9bf0"/>
-              <path d="M5 9l3 3 5-5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
           <span class="vp-verified-badge">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
               <path d="M6.5 0L8.1 2.2L10.8 1.6L10.7 4.4L13 6.5L10.7 8.6L10.8 11.4L8.1 10.8L6.5 13L4.9 10.8L2.2 11.4L2.3 8.6L0 6.5L2.3 4.4L2.2 1.6L4.9 2.2L6.5 0Z" fill="#22C55E"/>
@@ -580,7 +632,7 @@
       <div class="ai-profile-cover"></div>
       <div class="profile-header">
         <div class="profile-avatar-row">
-          <div class="profile-avatar" style="background:#60a5fa;">A</div>
+          <div class="profile-avatar" style="background:#60a5fa;">P</div>
           <button class="follow-btn">Follow</button>
         </div>
         <div class="profile-name-row">
@@ -609,12 +661,11 @@
 
 </div>
 
-<!-- ── Row 4: Unverified profiles with vote widget ─────────────────────────── -->
+<!-- ── Row 4: Unknown creator with vote widget ─────────────────────────────── -->
 <div class="row">
 
-  <!-- Unverified profile A -->
   <div>
-    <div class="label">Unknown Creator — Vote Prompt</div>
+    <div class="label">Unknown Creator — Community Vote Widget</div>
     <div class="x-shell">
       <div class="unknown-profile-cover"></div>
       <div class="profile-header">
@@ -641,9 +692,8 @@
     </div>
   </div>
 
-  <!-- Unverified profile B -->
   <div>
-    <div class="label">Unknown Creator — Vote Prompt</div>
+    <div class="label">Unknown Creator — Community Vote Widget</div>
     <div class="x-shell">
       <div class="unknown-profile-cover" style="background: linear-gradient(135deg,#fce7f3,#fdf4ff);"></div>
       <div class="profile-header">
@@ -670,6 +720,34 @@
     </div>
   </div>
 
+</div>
+
+<!-- ── Row 5: Architecture diagram ─────────────────────────────────────────── -->
+<div class="row">
+  <div class="arch">
+    <div class="arch-title">How it works</div>
+    <div class="arch-flow">
+      <div class="arch-node supabase">
+        <h4>Supabase (source of truth)</h4>
+        <p><strong>verified_creators</strong> + <strong>ai_creators</strong> tables. Centrally managed; community submissions are manually reviewed by the team before being added.</p>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node bg">
+        <h4>Background worker</h4>
+        <p>Fetches both lists every 6 hours and caches in <code>chrome.storage.local</code>. Batches anonymous analytics (impressions, profile visits) and flushes every 60s.</p>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node content">
+        <h4>Content script (x.com)</h4>
+        <p>Reads cached handle maps, scans the DOM, and injects green/blue badges next to usernames. Debounced <code>MutationObserver</code> handles the SPA timeline.</p>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node popup">
+        <h4>Toolbar popup</h4>
+        <p>Shows live counts, last sync time, and quick links to X/Twitter and Ko-fi support.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 </body>

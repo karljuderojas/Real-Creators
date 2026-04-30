@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verified People — Badge Definitions</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+      background: #f9fafb;
+      color: #111827;
+      min-height: 100vh;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .brand-text {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .lede {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px 22px;
+      margin-bottom: 14px;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid;
+    }
+
+    .badge--human  { background:#f0fdf4; color:#15803d; border-color:#bbf7d0; }
+    .badge--ai     { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+    .badge--unsure { background:#f9fafb; color:#374151; border-color:#e5e7eb; }
+
+    .card p {
+      font-size: 14px;
+      line-height: 1.55;
+      color: #374151;
+    }
+
+    .footnote {
+      margin-top: 24px;
+      padding: 16px 18px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #78350f;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body { background: #0f172a; color: #f9fafb; }
+      .lede { color: #9ca3af; }
+      .card { background: #1f2937; border-color: #374151; }
+      .card p { color: #d1d5db; }
+      .footnote { background: #292524; border-color: #57534e; color: #fcd34d; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="brand">
+      <svg width="22" height="22" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M10 0L12.4 3.4L16.6 2.4L16.4 6.8L20 10L16.4 13.2L16.6 17.6L12.4 16.6L10 20L7.6 16.6L3.4 17.6L3.6 13.2L0 10L3.6 6.8L3.4 2.4L7.6 3.4L10 0Z" fill="#22C55E"/>
+        <path d="M6.5 10L8.8 12.3L13.5 7.5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-text">Verified People</span>
+    </div>
+
+    <h1>Badge Definitions</h1>
+    <p class="lede">What each badge means and when to use them.</p>
+
+    <div class="card">
+      <div class="card-head">
+        <span class="badge badge--human">Verified Creator</span>
+      </div>
+      <p>A creator that focuses on traditional methods and does not utilize AI in their main workflow.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <span class="badge badge--ai">AI Creator</span>
+      </div>
+      <p>A creator that utilizes AI in their main workflow.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <span class="badge badge--unsure">Not Sure</span>
+      </div>
+      <p>If you are not sure whether the creator utilizes traditional methods, or AI methods in their workflow. This signals to the team that this needs further verification.</p>
+    </div>
+
+    <div class="footnote">
+      Community contributions are manually reviewed by the team before being added to the database, so there may be a delay between submission and the badge appearing for users.
+    </div>
+  </div>
+</body>
+</html>
