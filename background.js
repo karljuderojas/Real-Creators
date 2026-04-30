@@ -6,6 +6,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 // ── Constants ─────────────────────────────────────────────────────────────────
 const CACHE_KEY = 'verified_handles';
 const AI_CACHE_KEY = 'ai_handles';
+const PENDING_COUNT_KEY = 'pending_count';
 const CACHE_UPDATED_KEY = 'cache_updated_at';
 const SESSION_ID_KEY = 'session_id';
 const REFRESH_ALARM = 'vp_refresh_list';
@@ -61,7 +62,7 @@ async function refreshVerifiedList() {
     return;
   }
 
-  await Promise.all([refreshHumanList(), refreshAiList()]);
+  await Promise.all([refreshHumanList(), refreshAiList(), refreshPendingCount()]);
 
   await chrome.storage.local.set({ [CACHE_UPDATED_KEY]: Date.now() });
 }
@@ -101,6 +102,29 @@ async function refreshAiList() {
     console.log(`[VerifiedPeople] AI list refreshed: ${Object.keys(handles).length} accounts`);
   } catch (err) {
     console.error('[VerifiedPeople] AI list refresh failed:', err);
+  }
+}
+
+async function refreshPendingCount() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/rpc/pending_submissions_count`,
+      {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: '{}',
+      }
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const count = await res.json();
+    await chrome.storage.local.set({ [PENDING_COUNT_KEY]: typeof count === 'number' ? count : 0 });
+    console.log(`[VerifiedPeople] Pending submissions: ${count}`);
+  } catch (err) {
+    console.error('[VerifiedPeople] Pending count refresh failed:', err);
   }
 }
 
@@ -181,10 +205,11 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       break;
 
     case 'GET_STATUS':
-      chrome.storage.local.get([CACHE_KEY, AI_CACHE_KEY, CACHE_UPDATED_KEY], (data) => {
+      chrome.storage.local.get([CACHE_KEY, AI_CACHE_KEY, PENDING_COUNT_KEY, CACHE_UPDATED_KEY], (data) => {
         sendResponse({
           creatorCount: Object.keys(data[CACHE_KEY] || {}).length,
           aiCount: Object.keys(data[AI_CACHE_KEY] || {}).length,
+          pendingCount: data[PENDING_COUNT_KEY] ?? 0,
           lastUpdated: data[CACHE_UPDATED_KEY] || null,
           configured: SUPABASE_URL !== 'YOUR_SUPABASE_URL',
         });

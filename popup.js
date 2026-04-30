@@ -1,6 +1,7 @@
 const dot = document.getElementById('status-dot');
 const creatorCount = document.getElementById('creator-count');
 const aiCount = document.getElementById('ai-count');
+const pendingCount = document.getElementById('pending-count');
 const lastSync = document.getElementById('last-sync');
 const msg = document.getElementById('msg');
 
@@ -13,6 +14,7 @@ chrome.runtime.sendMessage({ type: 'GET_STATUS' }, (status) => {
 
   creatorCount.textContent = status.creatorCount;
   aiCount.textContent = status.aiCount;
+  pendingCount.textContent = status.pendingCount ?? 0;
 
   if (status.lastUpdated) {
     const mins = Math.round((Date.now() - status.lastUpdated) / 60000);
@@ -29,7 +31,7 @@ chrome.runtime.sendMessage({ type: 'GET_STATUS' }, (status) => {
     msg.textContent = 'No creators loaded yet. The list syncs every 6 hours.';
   } else {
     setDot('ok');
-    msg.textContent = `Badges active: ${status.creatorCount} human creators, ${status.aiCount} AI creators flagged.`;
+    msg.textContent = `Badges active: ${status.creatorCount} Human Creators, ${status.aiCount} AI Creators.`;
   }
 });
 

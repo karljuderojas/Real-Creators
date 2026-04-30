@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Verified People",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "See which creators on X are real human artists, verified by the Verified People community.",
   "permissions": [
     "storage",

@@ -82,7 +82,7 @@
 
     /* ── Popup shell (mirrors popup.css) ─────────────────────────────────── */
     .popup {
-      width: 240px;
+      width: 300px;
       background: #fff;
       border-radius: 14px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.13);
@@ -125,9 +125,10 @@
       font-weight: 700;
       line-height: 1;
     }
-    .popup-stat-val.green { color: #15803d; }
-    .popup-stat-val.blue  { color: #1d4ed8; }
-    .popup-stat-val.gray  { color: #374151; }
+    .popup-stat-val.green  { color: #15803d; }
+    .popup-stat-val.blue   { color: #1d4ed8; }
+    .popup-stat-val.amber  { color: #a16207; }
+    .popup-stat-val.gray   { color: #374151; }
     .popup-stat-lbl {
       font-size: 10px;
       color: #6b7280;
@@ -427,11 +428,15 @@
           <span class="popup-stat-lbl">AI Creators</span>
         </div>
         <div class="popup-stat">
+          <span class="popup-stat-val amber">5</span>
+          <span class="popup-stat-lbl">Pending Review</span>
+        </div>
+        <div class="popup-stat">
           <span class="popup-stat-val gray">2m</span>
           <span class="popup-stat-lbl">Last Sync</span>
         </div>
       </div>
-      <div class="popup-msg">Badges active: 20 human creators, 2 AI creators flagged.</div>
+      <div class="popup-msg">Badges active: 20 Human Creators, 2 AI Creators.</div>
       <div class="popup-footer">
         <a class="popup-footer-x" href="#">Open X/Twitter</a>
         <a class="popup-footer-kofi" href="#">Support on Ko-fi</a>

@@ -32,3 +32,21 @@ CREATE POLICY "Admin can update submissions"
   TO authenticated
   USING (true)
   WITH CHECK (true);
+
+-- ── Public-readable pending count ──────────────────────────────────────────
+-- RLS blocks anon SELECT on this table, but the popup needs to display the
+-- number of accounts awaiting review. SECURITY DEFINER lets this function
+-- return just the count (not the underlying rows), which is safe to expose.
+
+CREATE OR REPLACE FUNCTION pending_submissions_count()
+RETURNS integer
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT COUNT(DISTINCT twitter_handle)::integer
+  FROM creator_submissions
+  WHERE status = 'pending';
+$$;
+
+GRANT EXECUTE ON FUNCTION pending_submissions_count() TO anon, authenticated;
