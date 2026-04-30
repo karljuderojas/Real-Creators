@@ -40,3 +40,14 @@ function setDot(state) {
   const labels = { ok: 'Active', warning: 'Warning', error: 'Error', loading: 'Loading' };
   dot.title = labels[state] || state;
 }
+
+// ── Icon-only toggle ──
+const iconOnlyToggle = document.getElementById('icon-only-toggle');
+
+chrome.storage.local.get('vp_icon_only', (data) => {
+  iconOnlyToggle.checked = data.vp_icon_only === true;
+});
+
+iconOnlyToggle.addEventListener('change', () => {
+  chrome.storage.local.set({ vp_icon_only: iconOnlyToggle.checked });
+});

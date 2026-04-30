@@ -143,6 +143,34 @@
       line-height: 1.4;
       min-height: 32px;
     }
+    .popup-settings {
+      padding: 10px 14px;
+      border-top: 1px solid #f3f4f6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .popup-toggle-text { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+    .popup-toggle-title { font-size: 12px; font-weight: 600; color: #111827; }
+    .popup-toggle-hint  { font-size: 10px; color: #6b7280; line-height: 1.3; }
+    .popup-toggle-track {
+      position: relative;
+      width: 32px;
+      height: 18px;
+      background: #22c55e;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .popup-toggle-thumb {
+      position: absolute;
+      top: 2px;
+      left: 16px;
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
     .popup-footer {
       padding: 10px 14px 12px;
       border-top: 1px solid #f3f4f6;
@@ -437,6 +465,13 @@
         </div>
       </div>
       <div class="popup-msg">Badges active: 20 Human Creators, 2 AI Creators.</div>
+      <div class="popup-settings">
+        <div class="popup-toggle-text">
+          <span class="popup-toggle-title">Icon-only badges in feed</span>
+          <span class="popup-toggle-hint">Profiles always show the full badge</span>
+        </div>
+        <div class="popup-toggle-track"><div class="popup-toggle-thumb"></div></div>
+      </div>
       <div class="popup-footer">
         <a class="popup-footer-x" href="#">Open X/Twitter</a>
         <a class="popup-footer-kofi" href="#">Support on Ko-fi</a>
@@ -474,6 +509,26 @@
         </span>
       </div>
       <div class="badge-showcase-sub">AI creator — blue badge</div>
+
+      <div class="badge-showcase-row" style="margin-top:6px;">
+        <span class="vp-verified-badge" style="padding:3px 4px;gap:0;">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M6.5 0L8.1 2.2L10.8 1.6L10.7 4.4L13 6.5L10.7 8.6L10.8 11.4L8.1 10.8L6.5 13L4.9 10.8L2.2 11.4L2.3 8.6L0 6.5L2.3 4.4L2.2 1.6L4.9 2.2L6.5 0Z" fill="#22C55E"/>
+            <path d="M4 6.5L5.8 8.3L9 4.8" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="vp-ai-badge" style="padding:3px 4px;gap:0;">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <line x1="6.5" y1="0" x2="6.5" y2="2.5" stroke="#3B82F6" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="6.5" cy="1" r="0.8" fill="#3B82F6"/>
+            <rect x="1.5" y="2.5" width="10" height="8.5" rx="1.5" fill="#3B82F6"/>
+            <circle cx="4.5" cy="6" r="1.2" fill="white"/>
+            <circle cx="8.5" cy="6" r="1.2" fill="white"/>
+            <rect x="3.5" y="8.5" width="6" height="1.2" rx="0.6" fill="white" opacity="0.8"/>
+          </svg>
+        </span>
+      </div>
+      <div class="badge-showcase-sub">Icon-only mode — feed only (profiles unchanged)</div>
     </div>
   </div>
 

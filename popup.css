@@ -129,6 +129,80 @@ body {
   line-height: 1.4;
 }
 
+/* ── Settings (toggle row) ── */
+.settings {
+  padding: 10px 14px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.toggle-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.toggle-hint {
+  font-size: 10px;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+.toggle-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toggle-track {
+  position: relative;
+  width: 32px;
+  height: 18px;
+  background: #d1d5db;
+  border-radius: 999px;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  transition: transform 0.15s ease;
+}
+
+.toggle-input:checked ~ .toggle-track {
+  background: #22c55e;
+}
+
+.toggle-input:checked ~ .toggle-track .toggle-thumb {
+  transform: translateX(14px);
+}
+
+.toggle-input:focus-visible ~ .toggle-track {
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.25);
+}
+
 /* ── Footer ── */
 .footer {
   padding: 10px 14px 12px;

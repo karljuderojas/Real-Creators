@@ -19,16 +19,30 @@ let ready = false;
 (async function init() {
   const [handleData, storedData] = await Promise.all([
     fetchHandles(),
-    new Promise((resolve) => chrome.storage.local.get('vp_submitted_handles', resolve)),
+    new Promise((resolve) => chrome.storage.local.get(['vp_submitted_handles', 'vp_icon_only'], resolve)),
   ]);
   verifiedHandles  = handleData.verified || {};
   aiHandles        = handleData.ai || {};
   submittedHandles = new Set(storedData.vp_submitted_handles || []);
+  applyIconOnly(storedData.vp_icon_only === true);
   ready = true;
   runInjection();
   setupMutationObserver();
   watchNavigation();
+  watchPreferences();
 })();
+
+function applyIconOnly(enabled) {
+  document.documentElement.classList.toggle('vp-icon-only', enabled);
+}
+
+function watchPreferences() {
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local' && changes.vp_icon_only) {
+      applyIconOnly(changes.vp_icon_only.newValue === true);
+    }
+  });
+}
 
 function fetchHandles() {
   return new Promise((resolve) => {

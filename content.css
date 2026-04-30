@@ -68,6 +68,23 @@
   letter-spacing: 0.01em;
 }
 
+/* ── Icon-only mode (toggled from the popup; hides badge text) ───────────
+   Scoped to tweets only — the profile-header badge always shows the full
+   text. Profile badges live inside [data-testid="UserName"] (no tweet
+   wrapper); feed badges live inside [data-testid="User-Name"] which is
+   itself inside [data-testid="tweet"]. */
+
+html.vp-icon-only [data-testid="tweet"] .vp-verified-badge span,
+html.vp-icon-only [data-testid="tweet"] .vp-ai-badge span {
+  display: none;
+}
+
+html.vp-icon-only [data-testid="tweet"] .vp-verified-badge,
+html.vp-icon-only [data-testid="tweet"] .vp-ai-badge {
+  padding: 3px 4px;
+  gap: 0;
+}
+
 /* ── Vote widget ───────────────────────────────────────────────────────────── */
 
 .vp-vote-widget {
