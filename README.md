@@ -9,6 +9,10 @@ A Chrome extension that injects badges onto X/Twitter profiles and feed entries:
 
 ---
 
+☕ **Support the project:** maintaining the curated lists, reviewing community submissions, and keeping the extension working as X ships front-end changes takes ongoing time. If Verified People is useful to you, consider supporting on **[Ko-fi](https://ko-fi.com/karlthepog)** — it helps keep the project alive.
+
+---
+
 ## How it works
 
 - A **background service worker** fetches both the human and AI creator lists from Supabase every 6 hours and caches them in `chrome.storage.local`. Badges render even when offline between refresh cycles.
@@ -65,6 +69,10 @@ All list management is done directly in the Supabase dashboard.
 - **Add a human creator:** insert a row into `verified_creators`
 - **Add an AI creator:** insert a row into `ai_creators`
 - **Remove either:** set `status = 'removed'` — the badge disappears on the next 6-hour cache refresh
+
+### Community contributions
+
+The lists are centrally managed online so every user stays synced to the same dataset — there is no per-user list. Anyone can submit a creator, but **all community contributions are manually reviewed by the team before being added to the database**, so there may be a delay between submission and the badge appearing for users.
 
 ---
 
